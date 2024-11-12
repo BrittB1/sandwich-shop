@@ -1,31 +1,37 @@
 package com.pluralsight.deli;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Sandwich {
-    private String sandwich;  // Sandwich type (e.g., "Turkey", "Veggie")
-    private double totalPrice; // Price of the sandwich
+    private String breadType;
+    private List<Topping> toppings;
+
 
     // Constructor
-    public Sandwich(String sandwich, double totalPrice) {
-        this.sandwich = sandwich;
-        this.totalPrice = totalPrice;
+    public Sandwich(String breadType, List<Topping> toppings) {
+        this.breadType = breadType;
+
     }
 
-    // Getter for sandwich type
+
     public String getType() {
-        return sandwich;
+        return breadType;
     }
 
-    // Getter for sandwich totalPrice
+
     public double getTotalPrice() {
-        return totalPrice;
+        return 5; //this is a fake value
     }
 
     @Override
     public String toString() {
-        return sandwich + " ($" + totalPrice + ")";
+        return breadType + " ($" + getTotalPrice() + ")";
+    }
+
+    public void startOrder(){
+        System.out.println("Welcome to OK Sub Shop, where our motto is close enough. What can I get you? ");
     }
 }
+
+
 

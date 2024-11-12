@@ -25,6 +25,10 @@ public class Order {
         return totalPrice;
     }
 
+    public void startOrder() {
+
+    }
+
     class Sandwich {
         private String name;
         private double price;
