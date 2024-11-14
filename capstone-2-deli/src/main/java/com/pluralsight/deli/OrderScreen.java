@@ -38,23 +38,42 @@ public class OrderScreen {
                     RegularBread type = askUserForBreadType();
                     SandwichSize size = askUserForSize();
                     RegularToppings toppings = askUserForToppings();
-                    Sandwich s = new Sandwich(size);
-                    order.addSandwich(s);
+                    Sandwich s = new Sandwich(size, type, toppings);
+
+                    //getting topping and cheese from user and meat
+
+
+                    // order.addItemToOrder();
 
                     break;
+
                 case "D":
-                    // todo: create a drink and add it to the order
                     Beverages flavors = askUserForDrinkFlavor();
                     SodaSize cup = askUserForDrinkSize();
+
+                    Drink drink = new Drink(cup, flavors);
+
                     break;
 
                 case "C":
-                    // todo: create chips and add it to the order
+
+                    //ask user for chip flavor
+                    ChipChoice bag = askUserForChipChoice();
+                    //order.addItemToOrder(bag);
                     break;
 
-                case "T":
+                case "O":
                     // todo: create checkout method that totals order + creates receipt
+                    if (order.getPrice() == 0) {
+                        System.out.println("\uD83D\uDE31 No order to checkout with! Please place an order and try again");
+                    } else {
+                        // Calculate total and generate receipt
+                        double total = order.getPrice();
+                        System.out.println("\n=== Receipt ===");
+                        System.out.println("Order Total: $" + String.format("%.2f", total));
+                    }
                     break;
+
                 case "X":
                     // exits back to main menu
                     return;
@@ -64,9 +83,8 @@ public class OrderScreen {
         }
     }
 
-
     private Beverages askUserForDrinkFlavor() {
-        System.out.println("What kind of drink would you like? ");
+        System.out.println("\uD83C\uDF4D What kind of drink would you like? ");
         Beverages[] flavors = Beverages.values();
 
         int i = 1;
@@ -81,7 +99,9 @@ public class OrderScreen {
     }
 
     private SodaSize askUserForDrinkSize() {
-        System.out.println("What size would you like for your drink?");
+
+
+        System.out.println("\uD83D\uDCCF What size would you like for your drink?");
         SodaSize[] cups = SodaSize.values();
 
         int i = 1;
@@ -96,7 +116,7 @@ public class OrderScreen {
     }
 
     private RegularToppings askUserForToppings() {
-        System.out.println("What toppings would you like?");
+        System.out.println("\uD83C\uDF45 What toppings would you like?");
         RegularToppings[] toppings = RegularToppings.values();
 
         int i = 1;
@@ -112,7 +132,7 @@ public class OrderScreen {
     }
 
     private RegularBread askUserForBreadType() {
-        System.out.println("What type of bread do you want?");
+        System.out.println("\uD83C\uDF5E What type of bread do you want?");
         RegularBread[] types = RegularBread.values();
 
         int i = 1;
@@ -126,9 +146,8 @@ public class OrderScreen {
         return types[choice - 1];
     }
 
-
     private SandwichSize askUserForSize() {
-        System.out.println("What size do you want?");
+        System.out.println("\uD83D\uDCCF What size do you want?");
         SandwichSize[] sizes = SandwichSize.values();
 
         int i = 1;
@@ -140,5 +159,19 @@ public class OrderScreen {
         Integer choice = Integer.parseInt(inputString);
 
         return sizes[choice - 1];
+    }
+    public ChipChoice askUserForChipChoice() {
+        System.out.println("✨ What flavor of chips would you like?");
+        ChipChoice[] bags = ChipChoice.values();
+
+        int i = 1;
+        for (ChipChoice bag : bags) {
+            System.out.printf("%d. %s\n", i++, bag);
+
+        }
+        String inputString = userInput.nextLine();
+        Integer choice = Integer.parseInt(inputString);
+
+        return bags[choice - 1];
     }
 }
