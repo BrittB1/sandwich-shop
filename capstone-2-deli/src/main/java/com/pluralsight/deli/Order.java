@@ -1,49 +1,58 @@
 package com.pluralsight.deli;
 
+import fixins.*;
 import java.util.ArrayList;
-import java.util.List;
 
-public class Order {
-    private List<Sandwich> sandwiches;
-    private double totalPrice;
+public class Order implements Prices {
+    private ArrayList<OrderItem> items = new ArrayList<>();
+    private double total = 0.0;
 
-    public Order() {
-        this.sandwiches = new ArrayList<>();
-        this.totalPrice = 0.0;
+    public void addItemToOrder(OrderItem item) {
+        items.add(item);
+        calculateTotal();
     }
 
-    public void addSandwich(Sandwich sandwich) {
-        sandwiches.add(sandwich);
-        totalPrice += sandwich.getPrice();
+    private void calculateTotal() {
+        total = 0.0;
+        for (OrderItem item : items) {
+            total += item.getPrice();
+        }
     }
 
-    public List<Sandwich> getSandwiches() {
-        return sandwiches;
+    @Override
+    public double getPrice() {
+        return total;
     }
 
-    public double getTotalPrice() {
-        return totalPrice;
-    }
+    public void displayOrderSummary() {
+        System.out.println("\n====================================");
+        System.out.println("🧾 ORDER SUMMARY");
+        System.out.println("====================================");
 
-    public void startOrder() {
-
-    }
-
-    class Sandwich {
-        private String name;
-        private double price;
-
-        public Sandwich(String name, double price) {
-            this.name = name;
-            this.price = price;
+        for (OrderItem item : items) {
+            if (item instanceof Sandwich sandwich) {
+                System.out.println("\n🥪 SANDWICH");
+                System.out.printf("   Size: %s\n", sandwich.getSize());
+                System.out.printf("   Bread: %s\n", sandwich.getBread());
+                System.out.printf("   Cheese: %s\n", sandwich.getCheese());
+                System.out.printf("   Toppings: %s\n", sandwich.getToppings());
+            } else if (item instanceof Drink drink) {
+                System.out.println("\n🥤 DRINK");
+                System.out.printf("   Flavor: %s\n", drink.getFlavor());
+                System.out.printf("   Size: %s\n", drink.getSize());
+            } else if (item instanceof Chips chips) {
+                System.out.println("\n🍪 SIDES");
+                System.out.printf("   Chips: %s\n", chips.getFlavor());
+            }
         }
 
-        public String getName() {
-            return name;
-        }
+        System.out.println("\n====================================");
+        System.out.printf("💰 TOTAL: $%.2f\n", getPrice());
+        System.out.println("====================================\n");
+    }
 
-        public double getPrice() {
-            return price;
-        }
+    public void clearOrder() {
+        items.clear();
+        total = 0.0;
     }
 }

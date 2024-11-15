@@ -1,16 +1,14 @@
 package com.pluralsight.deli;
 
-import java.util.Arrays;
+import fixins.*;
 import java.util.Scanner;
 
 public class OrderScreen {
-
     private final Order order;
     Scanner userInput = null;
 
     public OrderScreen(Order order) {
         this.order = order;
-
     }
 
     public void startOrder(Scanner input) {
@@ -18,69 +16,76 @@ public class OrderScreen {
         while (true) {
             System.out.println("""
                     
-                        =============================
-                        🍞 Welcome to OK Sandwiches 🍦
-                        =============================
-                        Choose an option by letter:
-                            A. Add Sandwich
-                            D. Add Drink
-                            C. Add Chips
-                            O. Checkout
-                            X. Cancel Order
+                    =============================
+                    🍞 Welcome to OK Sandwiches 🍦
+                    =============================
+                    Choose an option by letter:
+                        A. Add Sandwich
+                        D. Add Drink
+                        C. Add Chips
+                        O. Checkout
+                        X. Cancel Order
                     """);
-            // create switch case and call add sandwich method
             String selection = input.nextLine().trim().toUpperCase();
 
             switch (selection) {
-
                 case "A":
-// todo: create a sandwich and add it too the order
                     RegularBread type = askUserForBreadType();
                     SandwichSize size = askUserForSize();
                     RegularToppings toppings = askUserForToppings();
-                    Sandwich s = new Sandwich(size, type, toppings);
-
-                    //getting topping and cheese from user and meat
-
-
-                    // order.addItemToOrder();
-
+                    Cheeses slice = askUserForCheeseChoice();
+                    Sandwich sandwich = new Sandwich(size, type, toppings, slice);
+                    order.addItemToOrder(sandwich);
+                    System.out.println("🥪 Sandwich added to your order!");
                     break;
 
                 case "D":
                     Beverages flavors = askUserForDrinkFlavor();
                     SodaSize cup = askUserForDrinkSize();
-
                     Drink drink = new Drink(cup, flavors);
-
+                    order.addItemToOrder(drink);
+                    System.out.println("🥤 Drink added to your order!");
                     break;
 
                 case "C":
-
-                    //ask user for chip flavor
-                    ChipChoice bag = askUserForChipChoice();
-                    //order.addItemToOrder(bag);
+                    ChipChoice flavor = askUserForChipChoice();
+                    Chips chips = new Chips(flavor);
+                    order.addItemToOrder(chips);
+                    System.out.println("🍪 Chips added to your order!");
                     break;
 
                 case "O":
-                    // todo: create checkout method that totals order + creates receipt
                     if (order.getPrice() == 0) {
                         System.out.println("\uD83D\uDE31 No order to checkout with! Please place an order and try again");
                     } else {
-                        // Calculate total and generate receipt
-                        double total = order.getPrice();
-                        System.out.println("\n=== Receipt ===");
-                        System.out.println("Order Total: $" + String.format("%.2f", total));
+                        order.displayOrderSummary();
+                        return;
                     }
                     break;
 
                 case "X":
-                    // exits back to main menu
+                    System.out.println("Order cancelled!");
                     return;
 
                 default:
+                    System.out.println("Invalid selection. Please try again.");
+                    break;
             }
         }
+    }
+
+    private Cheeses askUserForCheeseChoice() {
+        System.out.println("\uD83C\uDF4D What kind of cheese would you like? ");
+        Cheeses[] slices = Cheeses.values();
+
+        int i = 1;
+        for (Cheeses slice : slices) {
+            System.out.printf("%d. %s\n", i++, slice);
+        }
+        String inputString = userInput.nextLine();
+        Integer choice = Integer.parseInt(inputString);
+
+        return slices[choice - 1];
     }
 
     private Beverages askUserForDrinkFlavor() {
@@ -90,7 +95,6 @@ public class OrderScreen {
         int i = 1;
         for (Beverages flavor : flavors) {
             System.out.printf("%d. %s\n", i++, flavor);
-
         }
         String inputString = userInput.nextLine();
         Integer choice = Integer.parseInt(inputString);
@@ -99,15 +103,12 @@ public class OrderScreen {
     }
 
     private SodaSize askUserForDrinkSize() {
-
-
         System.out.println("\uD83D\uDCCF What size would you like for your drink?");
         SodaSize[] cups = SodaSize.values();
 
         int i = 1;
-        for (SodaSize cup : cups) ;
-        {
-            System.out.printf("%d. %s\n", i++, Arrays.toString(cups));
+        for (SodaSize cup : cups) {
+            System.out.printf("%d. %s\n", i++, cup);
         }
         String inputString = userInput.nextLine();
         Integer choice = Integer.parseInt(inputString);
@@ -122,13 +123,11 @@ public class OrderScreen {
         int i = 1;
         for (RegularToppings topping : toppings) {
             System.out.printf("%d. %s\n", i++, topping);
-
         }
         String inputString = userInput.nextLine();
         Integer choice = Integer.parseInt(inputString);
 
         return toppings[choice - 1];
-
     }
 
     private RegularBread askUserForBreadType() {
@@ -138,7 +137,6 @@ public class OrderScreen {
         int i = 1;
         for (RegularBread type : types) {
             System.out.printf("%d. %s\n", i++, type);
-
         }
         String inputString = userInput.nextLine();
         Integer choice = Integer.parseInt(inputString);
@@ -153,13 +151,13 @@ public class OrderScreen {
         int i = 1;
         for (SandwichSize size : sizes) {
             System.out.printf("%d. %s\n", i++, size);
-
         }
         String inputString = userInput.nextLine();
         Integer choice = Integer.parseInt(inputString);
 
         return sizes[choice - 1];
     }
+
     public ChipChoice askUserForChipChoice() {
         System.out.println("✨ What flavor of chips would you like?");
         ChipChoice[] bags = ChipChoice.values();
@@ -167,7 +165,6 @@ public class OrderScreen {
         int i = 1;
         for (ChipChoice bag : bags) {
             System.out.printf("%d. %s\n", i++, bag);
-
         }
         String inputString = userInput.nextLine();
         Integer choice = Integer.parseInt(inputString);

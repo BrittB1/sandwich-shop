@@ -2,20 +2,11 @@ package com.pluralsight.deli;
 
 import java.util.Scanner;
 
-// create a sanwich
-//Sandwhich s = new Sanwhich();
-
-// find out how much it costs
-//double price = s.getPrice();
-
-// print it out
 public class Program {
     public static Scanner input = new Scanner(System.in);
 
-    public static void main(String[] args) {
-
+    public static void main(String[] args) {  // Removed the <Order> generic type parameter
         while (true) {
-
             System.out.println("""
                     
                         =============================
@@ -29,7 +20,6 @@ public class Program {
             String selection = input.nextLine().trim().toUpperCase();
 
             switch (selection) {
-
                 case "N":
                     Order order = new Order();
                     OrderScreen orderScreen = new OrderScreen(order);
@@ -39,10 +29,9 @@ public class Program {
                     System.out.println("Goodbye, come again \uD83D\uDE04");
                     return;
                 default:
-                    System.out.println("Sorry invalid input. Please enter on of the given options ");
-
-
+                    System.out.println("Sorry invalid input. Please enter one of the given options ");
             }
         }
     }
 }
+
