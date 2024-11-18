@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class OrderScreen {
     private final Order order;
-    Scanner userInput = null;
+    Scanner userInput = new Scanner(System.in);
 
     public OrderScreen(Order order) {
         this.order = order;
@@ -35,6 +35,16 @@ public class OrderScreen {
                     RegularToppings toppings = askUserForToppings();
                     Cheeses slice = askUserForCheeseChoice();
                     Sandwich sandwich = new Sandwich(size, type, toppings, slice);
+
+                    System.out.println("Ya want it hot or not? (y/n)");
+                    String toastInput = input.nextLine();
+                    boolean isToasted;
+                    if (toastInput.toLowerCase().startsWith("y")) {
+                        isToasted = true;
+                    } else {
+                        isToasted = false;
+                    }
+
                     order.addItemToOrder(sandwich);
                     System.out.println("🥪 Sandwich added to your order!");
                     break;
@@ -59,6 +69,10 @@ public class OrderScreen {
                         System.out.println("\uD83D\uDE31 No order to checkout with! Please place an order and try again");
                     } else {
                         order.displayOrderSummary();
+                        String receiptFilePath = "closedreceipts.csv";
+
+                        ReceiptPrinter printer = new ReceiptPrinter();
+                        printer.printReceipt(order, receiptFilePath);
                         return;
                     }
                     break;
@@ -75,7 +89,7 @@ public class OrderScreen {
     }
 
     private Cheeses askUserForCheeseChoice() {
-        System.out.println("\uD83C\uDF4D What kind of cheese would you like? ");
+        System.out.println("\uD83E\uDDC0 What kind of cheese would you like? ");
         Cheeses[] slices = Cheeses.values();
 
         int i = 1;
