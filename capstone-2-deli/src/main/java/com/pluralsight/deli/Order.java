@@ -1,10 +1,9 @@
 package com.pluralsight.deli;
 
-import fixins.*;
 import java.util.ArrayList;
 
 public class Order implements Prices {
-    private ArrayList<OrderItem> items = new ArrayList<>();
+    ArrayList<OrderItem> items = new ArrayList<>();
     private double total = 0.0;
 
     public void addItemToOrder(OrderItem item) {
@@ -26,7 +25,7 @@ public class Order implements Prices {
 
     public void displayOrderSummary() {
         System.out.println("\n====================================");
-        System.out.println("🧾 ORDER SUMMARY");
+        System.out.println("           🧾 ORDER SUMMARY");
         System.out.println("====================================");
 
         for (OrderItem item : items) {
@@ -49,10 +48,5 @@ public class Order implements Prices {
         System.out.println("\n====================================");
         System.out.printf("💰 TOTAL: $%.2f\n", getPrice());
         System.out.println("====================================\n");
-    }
-
-    public void clearOrder() {
-        items.clear();
-        total = 0.0;
     }
 }

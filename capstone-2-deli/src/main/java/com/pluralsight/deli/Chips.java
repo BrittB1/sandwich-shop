@@ -2,14 +2,14 @@ package com.pluralsight.deli;
 
 import fixins.ChipChoice;
 
-public class Chips extends OrderItem {  // Changed extends to implements
-    private final ChipChoice flavor;      // Changed String to ChipChoice
+public class Chips extends OrderItem {
+    private final ChipChoice flavor;
 
     public Chips(ChipChoice flavor) {
         this.flavor = flavor;
     }
 
-    public ChipChoice getFlavor() {       // Changed return type to ChipChoice
+    public ChipChoice getFlavor() {
         return flavor;
     }
 

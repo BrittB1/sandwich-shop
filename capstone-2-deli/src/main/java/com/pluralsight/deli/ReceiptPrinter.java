@@ -9,7 +9,7 @@ public class ReceiptPrinter {
     public void printReceipt(Order order, String filePath) {
         String dateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {  // Changed to BufferedWriter
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
             writer.write("=================================\n");
             writer.write("           OK Sandwiches          \n");
             writer.write("=================================\n");
